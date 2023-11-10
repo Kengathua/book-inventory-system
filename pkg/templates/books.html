@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book List</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Release Year</th>
+                <th>Genre</th>
+                <th>ISBN Number</th>
+                <th>Status</th>
+                <th>Quantity</th>
+                <th>Librarian Verified</th>
+                <th>Keeper Verified</th>
+            </tr>
+        </thead>
+        <tbody id="bookList">
+            <!-- Book data will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        var apiEndpoint = 'http://127.0.0.1:8000/apis/v1/inventory/books/';
+
+        // Fetch book data from the server
+        fetch(apiEndpoint)
+            .then(response => response.json())
+            .then(data => {
+                // Populate the table with book data
+                populateBookTable(data);
+            })
+            .catch(error => {
+                console.error('Error fetching book data:', error);
+            });
+
+        function populateBookTable(books) {
+            var bookListTable = document.getElementById('bookList');
+
+            books.forEach(book => {
+                var row = bookListTable.insertRow();
+
+                row.insertCell(0).textContent = book.title;
+                row.insertCell(1).textContent = book.author.name; // Assuming 'name' is the author's name
+                row.insertCell(2).textContent = book.release_year;
+                row.insertCell(3).textContent = book.genre;
+                row.insertCell(4).textContent = book.isbn_number;
+                row.insertCell(5).textContent = book.status;
+                row.insertCell(6).textContent = book.quantity;
+                row.insertCell(7).textContent = book.is_librarian_verified ? 'Yes' : 'No';
+                row.insertCell(8).textContent = book.is_keeper_verified ? 'Yes' : 'No';
+            });
+        }
+    </script>
+</body>
+</html>
