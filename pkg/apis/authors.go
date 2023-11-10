@@ -14,7 +14,7 @@ type AuthorRequestBody struct {
 func (h Handler) GetAuthors(c *fiber.Ctx) error {
 	var authors []models.Author
 
-	if result := h.DB.Find(&authors); result.Error != nil {
+	if result := h.DB.Preload("User").Find(&authors); result.Error != nil {
 		return apis.HTTPStatusNotFoundResponse(c, result.Error, "Authors not found", apis.ErrorResponseCode)
 	}
 

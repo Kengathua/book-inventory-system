@@ -18,10 +18,10 @@ type Token struct {
 
 type User struct {
 	common.BaseModel `gorm:"embedded"`
-	FullName         string    `gorm:"column:full_name" json:"full_name"`
-	Email            string    `gorm:"unique;column:email" json:"email"`
-	Password         string    `gorm:"column:password" json:"password"`
-	UserType         string    `gorm:"column:user_type" json:"user_type"`
+	FullName         string    `gorm:"column:full_name;not null" json:"full_name"`
+	Email            string    `gorm:"unique;column:email;not null" json:"email"`
+	Password         string    `gorm:"column:password;not null" json:"password"`
+	UserType         string    `gorm:"column:user_type;not null" json:"user_type"`
 	LastLogin        time.Time `gorm:"column:last_login" json:"last_login"`
 }
 

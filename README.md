@@ -27,5 +27,3 @@ Clone the repository and if you have go set up on your machine run
         go mod download
 
         go mod tidy
-
-jwahome@emtechhouse.co.ke
