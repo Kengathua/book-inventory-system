@@ -24,7 +24,14 @@ func (h Handler) GetUsers(c *fiber.Ctx) error {
 }
 
 func (h Handler) GetUser(c *fiber.Ctx) error {
-	return nil
+	id := c.Params("id")
+	var user models.User
+
+	if result := h.DB.First(&user, "id = ?", id); result.Error != nil {
+		return apis.HTTPStatusNotFoundResponse(c, result.Error, "User not found", apis.ErrorResponseCode)
+	}
+
+	return apis.HTTPStatusOkDataRequestResponse(c, &user, "Successfully found user", apis.SuccessResponseCode)
 }
 
 func (h Handler) AddUser(c *fiber.Ctx) error {
